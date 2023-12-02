@@ -1,23 +1,21 @@
 package student.examples.ggengine.events;
 
-import java.util.UUID;
 
 import org.springframework.context.ApplicationEvent;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
+import student.examples.ggengine.domain.entity.User;
 import student.examples.ggengine.game.UserStatus;
 
 @Getter
 public class UserEvent  extends ApplicationEvent{
 	
 	private UserStatus userStatus;
-	private UUID userId;
+	private User user;
 	
-	public UserEvent(Object source, String userId, UserStatus userStatus) {
+	public UserEvent(Object source, User user, UserStatus userStatus) {
 		super(source);
-		this.userId = userId != null ? UUID.fromString(userId) : null;
+		this.user = user;
 		this.userStatus = userStatus;
 	}
 	

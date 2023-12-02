@@ -1,7 +1,6 @@
 package student.examples.ggengine.game;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

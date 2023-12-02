@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 
+import student.examples.ggengine.domain.entity.User;
 import student.examples.ggengine.game.GameState;
 import student.examples.ggengine.game.UserStatus;
 
@@ -18,8 +19,8 @@ public class EventPublisher {
         applicationEventPublisher.publishEvent(startGameEvent);
     }
     
-    public void publishUserEvent(String uuid, UserStatus userStatus) {
-    	UserEvent userEvent = new UserEvent(this, uuid, userStatus);
+    public void publishUserEvent(User user, UserStatus userStatus) {
+    	UserEvent userEvent = new UserEvent(this, user, userStatus);
         applicationEventPublisher.publishEvent(userEvent);
     }
 }

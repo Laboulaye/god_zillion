@@ -1,12 +1,12 @@
 package student.examples.ggengine.events;
 
-import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 
 import lombok.extern.slf4j.Slf4j;
+import student.examples.ggengine.domain.entity.User;
 import student.examples.ggengine.factory.ParticipantFactory;
 import student.examples.ggengine.game.Participant;
 import student.examples.ggengine.game.ServerParticipantSet;
@@ -17,7 +17,6 @@ import student.examples.ggengine.services.GameService;
 @Slf4j
 public class UserEventListener implements ApplicationListener<UserEvent> {
 	
-	public static final String HARDCODED_USER_NAME = "John Doe";
 	
 	@Autowired
 	private ParticipantFactory participantFactory;
@@ -31,19 +30,20 @@ public class UserEventListener implements ApplicationListener<UserEvent> {
 		ServerParticipantSet serverParticipantSet = gameService.getAllParticipants();
 		Participant participant;
 		
+		User user = event.getUser();
+		log.info("Received user event: " + event.getUserStatus() + ", UUID: " + user.getId());
+		
 		if (event.getUserStatus() == UserStatus.SIGNIN) {
-			UUID id = UUID.randomUUID();
-			participant = participantFactory.createParticipant(id, HARDCODED_USER_NAME);
+			participant = participantFactory.createParticipant(user.getId(), user.getUserName());
 			serverParticipantSet.add(participant);
 			
 		} else {
-			participant = gameService.getAllParticipants().getById(event.getUserId());
+			participant = gameService.getAllParticipants().getById(user.getId());
 			if (participant != null) {
 				serverParticipantSet.delete(participant);
 			}
 		}
 		
-		log.info("Received user event: " + event.getUserStatus() + " UUID: " + event.getUserId());
 		log.info("All server participants: ");
 		for (Participant part : serverParticipantSet.getAllParticipants()) {
 			log.info(part.toString());

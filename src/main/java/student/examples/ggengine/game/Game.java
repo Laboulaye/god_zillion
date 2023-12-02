@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 public abstract class Game {
 	
 	UUID id;
+	
 	Set<Item> items;
 	
 	GameState gameState = GameState.PENDING;
