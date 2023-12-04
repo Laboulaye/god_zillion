@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import lombok.extern.slf4j.Slf4j;
+import student.examples.ggengine.domain.dto.UserAuthDto;
 import student.examples.ggengine.domain.entity.User;
 import student.examples.ggengine.domain.repository.UserRepository;
 import student.examples.ggengine.events.EventPublisher;
@@ -44,10 +45,10 @@ public class AuthService {
 	}
 	
 	
-	public String signIn(String userName, String password) {
-		User user = userRepository.findByUserName(userName);
+	public String signIn(UserAuthDto userDto) {
+		User user = userRepository.findByUserName(userDto.getUserName());
 		
-		if (user != null && checkPassword(password, user.getPassword())) {
+		if (user != null && checkPassword(userDto.getPassword(), user.getPassword())) {
 			gameEventPublisher.publishUserEvent(user, UserStatus.SIGNIN);
 			return user.getToken();
 		}

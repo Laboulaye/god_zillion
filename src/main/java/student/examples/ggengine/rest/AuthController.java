@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
+import student.examples.ggengine.domain.dto.UserAuthDto;
 import student.examples.ggengine.domain.entity.User;
 import student.examples.ggengine.services.AuthService;
 
@@ -35,9 +36,9 @@ public class AuthController {
 	}
 	
 
-	@GetMapping("/signin")
-	public ResponseEntity<String> signIn(@RequestParam String userName, @RequestParam String password) {
-		String token = authService.signIn(userName, password);
+	@PostMapping("/signin")
+	public ResponseEntity<String> signIn(@RequestBody UserAuthDto userDto) {
+		String token = authService.signIn(userDto);
 		if (token != null) {
 			return new ResponseEntity<String>("{\"status\": \"success\", \"token\": \"" + token +" \"}", HttpStatus.OK);
 		} else {
